@@ -10,9 +10,6 @@ lightgbm==3.2.1
 llvmlite==0.36.0
 matplotlib==3.4.2
 mlflow==1.19.0
-nb-conda==2.2.1
-numba==0.53.1
-numexpr==2.7.3
 numpy==1.19.5
 openpyxl==3.0.7
 pandas==1.2.4

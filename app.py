@@ -16,11 +16,14 @@ MENU = {
 def main():
 
     st.sidebar.title("Projeto Noteiras")
-    menu_selection = st.sidebar.radio("Escolha uma opção", list(MENU.keys()))
 
-    menu = MENU[menu_selection]
-    with st.spinner(f"Loading {menu_selection} ..."):
-        menu.write()
+    password = st.text_input("Digite a senha")
+    if password == 'minhasenha':
+        menu_selection = st.sidebar.radio("Escolha uma opção", list(MENU.keys()))
+
+        menu = MENU[menu_selection]
+        with st.spinner(f"Loading {menu_selection} ..."):
+            menu.write()
 
 
 if __name__ == "__main__":

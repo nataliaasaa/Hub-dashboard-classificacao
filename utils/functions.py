@@ -22,7 +22,7 @@ def clean_df(df):
         df['CNAE Empresa'] = df['CNAE Empresa'].replace("'-2", 0.0)
         df['CNAE Empresa'] = pd.to_numeric(df['CNAE Empresa'])
 
-    df=df.dropna(axis=1, how='all', inplace=True)
+    df.dropna(axis=1, how='all', inplace=True)
     df.fillna(0, inplace=True)
     st.write("Colunas com valores nulos trocados por 0: ", my_nan_list)
     df.drop_duplicates(inplace=True, ignore_index=True)

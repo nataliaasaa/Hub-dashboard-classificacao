@@ -22,13 +22,14 @@ def clean_df(df):
         df['CNAE Empresa'] = df['CNAE Empresa'].replace("'-2", 0.0)
         df['CNAE Empresa'] = pd.to_numeric(df['CNAE Empresa'])
 
+    df=df.dropna(axis=1, how='all', inplace=True)
     df.fillna(0, inplace=True)
     st.write("Colunas com valores nulos trocados por 0: ", my_nan_list)
     df.drop_duplicates(inplace=True, ignore_index=True)
     return df
 
 def clean_df_pred(df):
-    my_list = ['razao social']
+    my_list = ['CNPJ Raiz', 'razao social','Qtde de Razão Social Diferente', '% Maior Fornecedor Últimos 180 dias']
     my_nan_list = df.columns[df.isna().any()].tolist()
     for i in my_list:
         if i in df.columns:
@@ -36,7 +37,7 @@ def clean_df_pred(df):
     if 'CNAE Empresa' in df.columns:
         df['CNAE Empresa'] = df['CNAE Empresa'].replace("'-2", 0.0)
         df['CNAE Empresa'] = pd.to_numeric(df['CNAE Empresa'])
-
+    df.dropna(axis=1, how='all', inplace=True)
     df.fillna(0, inplace=True)
     st.write("Colunas com valores nulos trocados por 0: ", my_nan_list)
     return df
@@ -62,4 +63,4 @@ def get_table_download_link(df):
     """
     val = to_excel(df)
     b64 = base64.b64encode(val)  # val looks like b'...'
-    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="extract.xlsx">Download csv file</a>' # decode b'abc' => abc
+    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="extract.xlsx">Download xlsx file</a>' # decode b'abc' => abc

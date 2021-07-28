@@ -5,11 +5,13 @@ import pages.base
 import pages.modelos
 import pages.exploracao
 import pages.predicao
+import pages.readme
 
 MENU = {
+    "Ajuda" : pages.readme,
     "Base de Dados" : pages.base,
-    "Treinamento de Modelos": pages.modelos,
     "Exploração de Dados" : pages.exploracao,
+    "Treinamento de Modelos": pages.modelos,
     "Predição de Dados" : pages.predicao
 }
 

@@ -19,7 +19,7 @@ def write():
     ## Modelos disponíveis    
     ''')
     # Setup do pycaret
-    clf1 = setup(df, target = 'Class', session_id=123, log_experiment=True, normalize = True, transformation = True, silent=True, experiment_name='noteira')
+    clf1 = setup(df, target = 'Class', session_id=123, log_experiment=True, normalize = True, normalize_method='robust', transformation = True, silent=True, fix_imbalance = True, experiment_name='noteira')
     # Comparando os modelos
     best_model = compare_models(fold=5)
     # Output para dataframe p visualização
@@ -42,12 +42,28 @@ def write():
         plot_model(tuned_model, plot = 'confusion_matrix', display_format='streamlit')
         try:
             plot_model(tuned_model, plot = 'feature', display_format='streamlit')
-            st.markdown(''' ### Colunas de maior importância para a classificação''')
             feature_importance = pd.DataFrame({'Feature': get_config('X_train').columns, 'Value' : abs(tuned_model.coef_[0])}).sort_values(by='Value', ascending=False)        
-            st.dataframe(feature_importance)
+            if feature_importance is not None:
+                st.markdown(''' ### Colunas de maior importância para a classificação''')
+                st.dataframe(feature_importance)
+        except:
+            pass
+        
+        try:
+            plot_model(tuned_model, plot = 'feature', display_format='streamlit')
+            feature_importance = pd.DataFrame({'Feature': get_config('X_train').columns, 'Value' : abs(tuned_model.feature_importances_)}).sort_values(by='Value', ascending=False)        
+            if feature_importance is not None:
+                st.markdown(''' ### Colunas de maior importância para a classificação''')
+                st.dataframe(feature_importance)
         except:
             pass
         evaluate_model(tuned_model)
+
+        #
+        st.markdown(''' ### Predição com a base de validação''')
+        pred_holdouts = predict_model(tuned_model)
+        st.dataframe(pred_holdouts)
+
         # Salvando modelo
         save_model(tuned_model, model_name=choose_name_model)
         my_path = os.getcwd()
